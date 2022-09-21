@@ -1,2 +1,6 @@
 /.idea/
-/oauth2.iml
+/*.iml
+
+/auth-server/target/
+/client/target/
+/resource-server/target/

@@ -1,6 +1,4 @@
 /.idea/
-/*.iml
+**/*.iml
 
-/auth-server/target/
-/client/target/
-/resource-server/target/
+**/target/

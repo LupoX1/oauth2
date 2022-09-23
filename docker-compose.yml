@@ -1,0 +1,54 @@
+services:
+  auth-db:
+    build:
+      context: ./database-init
+    container_name: auth-db
+    networks:
+      - oauth-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - dbvol:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    restart: always
+  auth-server:
+    build:
+      context: ./auth-server
+    container_name: auth-server
+    ports:
+      - "9000:9000"
+    networks:
+      - oauth-network
+    depends_on:
+      - auth-db
+    environment:
+      - MYSQL_HOST=auth-db
+      - MYSQL_USERNAME=test_user
+      - MYSQL_PASSWORD=test_password
+      - MYSQL_DATABASE=oauth2
+      - MYSQL_PORT=3306
+  resource-server:
+    build:
+      context: ./resource-server
+    container_name: resource-server
+    networks:
+      - oauth-network
+    depends_on:
+      - auth-server
+  resource-client:
+    build:
+      context: ./client
+    container_name: resource-client
+    ports:
+      - "8080:8080"
+    networks:
+      - oauth-network
+    depends_on:
+      - resource-server
+networks:
+  oauth-network:
+    name: oauth-network
+
+volumes:
+  dbvol:

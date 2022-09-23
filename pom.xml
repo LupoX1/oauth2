@@ -13,6 +13,7 @@
         <module>auth-server</module>
         <module>resource-server</module>
         <module>client</module>
+        <module>database-init</module>
     </modules>
 
 </project>
